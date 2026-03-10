@@ -8,11 +8,11 @@ interface Message {
 }
 
 const SUGGESTED_QUESTIONS = [
-  "What projects has Prasath built?",
-  "What are his technical skills?",
-  "Where has he interned?",
-  "What certifications does he hold?",
-  "How can I contact him?",
+  "What projects has Hindhuja built?",
+  "What are her technical skills?",
+  "What is her educational background?",
+  "What certifications does she hold?",
+  "How can I contact her?",
 ];
 
 function TypingDots() {
@@ -63,7 +63,7 @@ export default function AIAssistantModal() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: `Hi! I'm an AI assistant trained on ${personalInfo.name}'s portfolio. Ask me anything about his skills, projects, experience, or how to get in touch! 👋`,
+      content: `Hi! I'm an AI assistant trained on ${personalInfo.name}'s portfolio. Ask me anything about her skills, projects, education, or how to get in touch! 👋`,
     },
   ]);
   const [input, setInput] = useState("");

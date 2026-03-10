@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   personalInfo,
+  aboutData,
   education,
   skills,
   projects,
   certifications,
+  strengths,
 } from "../../../data/data";
 
 const PORTFOLIO_CONTEXT = `
 You are an AI assistant embedded in ${personalInfo.name}'s personal portfolio website.
 Your job is to answer visitor questions about ${personalInfo.name} in a helpful and friendly tone.
-Always speak about ${personalInfo.name} in third person.
+Always speak about ${personalInfo.name} in third person using female pronouns (she/her).
 Keep answers short and clear (2–4 sentences unless listing information).
 
 If something is not available in the data, politely say you don't have that information and suggest contacting via the contact section.
@@ -18,15 +20,21 @@ If something is not available in the data, politely say you don't have that info
 --- PERSONAL INFO ---
 Name: ${personalInfo.name}
 Title: ${personalInfo.title}
+Tagline: ${personalInfo.tagline}
 Location: ${personalInfo.location}
 Email: ${personalInfo.email}
 Phone: ${personalInfo.phone}
+Available for Work: ${personalInfo.availableForWork ? "Yes" : "No"}
+
+--- ABOUT ---
+${aboutData.bio}
+Languages Spoken: ${aboutData.languages.join(", ")}
 
 --- EDUCATION ---
 ${education
   .map(
     (e) =>
-      `• ${e.degree} at ${e.institution} (${e.year}) — ${e.score}`
+      `• ${e.degree} at ${e.institution}, ${e.location} (${e.year}) — ${e.score}`
   )
   .join("\n")}
 
@@ -34,7 +42,7 @@ ${education
 ${skills
   .map(
     (s) =>
-      `${s.category}: ${s.items.map((i) => i.name).join(", ")}`
+      `${s.category}: ${s.items.map((i) => `${i.name} (${i.level})`).join(", ")}`
   )
   .join("\n")}
 
@@ -42,7 +50,7 @@ ${skills
 ${projects
   .map(
     (p) =>
-      `• ${p.title}: ${p.description} [Tech: ${p.techStack.join(", ")}]`
+      `• ${p.title}: ${p.description} [Tech: ${p.techStack.join(", ")}]${p.features?.length ? "\n  Features: " + p.features.join(", ") : ""}`
   )
   .join("\n")}
 
@@ -50,9 +58,18 @@ ${projects
 ${certifications
   .map(
     (c) =>
-      `• ${c.title} - ${c.issuer} (${c.year})`
+      `• ${c.title} — ${c.issuer} (${c.year}), Certificate No: ${c.certificateNumber}`
   )
   .join("\n")}
+
+--- STRENGTHS ---
+${strengths.map(s => `• ${s}`).join("\n")}
+
+--- IMPORTANT NOTES ---
+- Hindhuja is a fresher (fresh graduate). She has NO internship or work experience yet.
+- She is actively looking for her first job opportunity.
+- If asked about internships or work experience, clarify she is a fresher seeking her first opportunity.
+- Always use female pronouns (she/her) when referring to Hindhuja.
 `;
 
 export async function POST(req: NextRequest) {
